@@ -1,6 +1,12 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.7
-FROM node:alpine
+
+
+# Install Node.js
+RUN apt update --yes && apt install --yes curl
+RUN curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
+RUN apt-get install --yes nodejs
+RUN apt-get install --yes build-essential
 
 EXPOSE 8080
 
@@ -14,10 +20,6 @@ ENV PYTHONUNBUFFERED 1
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=localhost
 ENV FLASK_RUN_PORT=8080
-
-
-# Install unzip for debian
-RUN apt update -y && apt install unzip -y
 
 # Install pip requirements
 ADD /backend/requirements.txt .
