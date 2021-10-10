@@ -219,4 +219,4 @@ def countdown_submit(lobby_code):
 @login_required
 @app.route("/<path:path>")
 def static_pages(path):
-    return send_from_directory("../webapp", path)
+    return send_from_directory("../webapp/build", path)
