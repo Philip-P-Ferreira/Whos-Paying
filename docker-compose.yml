@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  web:
+    image: smartdocflask
+    command: gunicorn --bind 0.0.0.0:5000 app:app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes: 
+      - .:/app
+    ports:
+      - 8080

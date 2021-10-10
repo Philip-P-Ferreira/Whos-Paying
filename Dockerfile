@@ -22,7 +22,7 @@ RUN apt update -y && apt install unzip -y
 ADD /backend/requirements.txt .
 RUN python -m pip install -r requirements.txt
 
-WORKDIR /app
+WORKDIR /app/backend
 ADD . /app
 
 # During debugging, this entry point will be overridden. For more information, refer to https://aka.ms/vscode-docker-python-debug
