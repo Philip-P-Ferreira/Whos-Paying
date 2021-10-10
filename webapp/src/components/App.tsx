@@ -5,6 +5,7 @@ import { LoginView } from './login/login';
 import { Stack } from '@fluentui/react'
 import { HomeView } from './home/home';
 import { ProfileView } from './profile/profile';
+import { JoinGameView } from './joingame/joingame';
 
 const App = () =>{
   const navigationView = useSelector( (state: IState) => state.navigationView)
@@ -17,6 +18,8 @@ const App = () =>{
         return <HomeView/>
       case NAVIGATION_VIEW.PROFILE:
         return <ProfileView/>
+      case NAVIGATION_VIEW.JOIN:
+        return <JoinGameView/>
       default:
         return null
     }

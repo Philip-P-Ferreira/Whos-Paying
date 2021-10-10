@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Header } from '../home/header/header'
-import { Stack, Label, List, Text, IconButton } from '@fluentui/react'
+import { Stack, Label, List, Text } from '@fluentui/react'
 import { getMockAccountList, IMockAccount } from '../../mockdata/profile'
 import { useDispatch } from 'react-redux'
 import { setNavigationView } from '../../redux/actions'
@@ -12,27 +12,9 @@ export const ProfileView = () => {
   const accounts = getMockAccountList()
   const dispatch = useDispatch()
 
-  const renderBackButton = () => {
-
-    const onBackClick = () => { dispatch(setNavigationView(NAVIGATION_VIEW.HOME))}
-    return (
-      <IconButton
-        iconProps={
-          {
-            iconName: "ChromeBack",
-            style: {
-              fontSize: 32,
-            }
-          }
-        }
-        onClick={ onBackClick }/>
-    )
-  }
   return (
     <>
-      <Header
-        renderLeftButton={ renderBackButton }
-        />
+      <Header onLeftButtonClick={ ()=> dispatch(setNavigationView(NAVIGATION_VIEW.HOME))}/>
       <Stack>
         <Label style={ Styles.accountLabel }>Accounts</Label>
         <List

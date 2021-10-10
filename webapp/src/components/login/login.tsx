@@ -10,11 +10,11 @@ export const LoginView = (): React.ReactElement => {
   const [ password, setPassword ] = React.useState("")
   const dispatch = useDispatch();
 
-  const onUsernameChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) => {
+  const onUsernameChange = (_event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) => {
     setUserName(newValue ?? '')
  }
 
- const onPasswordChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) => {
+ const onPasswordChange = (_event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) => {
   setPassword(newValue ?? '')
 }
 
