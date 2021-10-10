@@ -4,6 +4,7 @@ export enum ACTION_TYPES {
   SET_CURRENT_USER = "SET_CURRENT_USER",
   CLEAR_CURRENT_USER = "CLEAR_CURRENT_USER",
   SET_NAVIGATION_VIEW = "SET_NAVIGATION_VIEW",
+  SET_LOADING_STATE = "SET_LOADING_STATE",
 }
 
 interface ISetUser {
@@ -41,7 +42,20 @@ export function setNavigationView(view: NAVIGATION_VIEW): ISetNavigationView {
   }
 }
 
+export interface ISetLoadingState {
+  type: ACTION_TYPES.SET_LOADING_STATE,
+  isLoading: boolean,
+}
+
+export function setLoadingState(isLoading: boolean): ISetLoadingState {
+  return {
+    type: ACTION_TYPES.SET_LOADING_STATE,
+    isLoading
+  }
+}
+
 export type IAction = 
 ISetUser | 
 IClearUser |
-ISetNavigationView
+ISetNavigationView |
+ISetLoadingState

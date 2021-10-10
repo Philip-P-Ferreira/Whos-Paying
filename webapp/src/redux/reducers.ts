@@ -12,6 +12,9 @@ export const reducer = (state: IState = initialState, action: IAction): IState =
     case (ACTION_TYPES.SET_NAVIGATION_VIEW):
       return {...state, navigationView: action.navigationView}
 
+    case (ACTION_TYPES.SET_LOADING_STATE):
+      return {...state, isLoading: action.isLoading}
+    
     default:
       console.log("UNHANDLED ACTION TYPE");
       return state;

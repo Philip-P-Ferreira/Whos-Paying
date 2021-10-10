@@ -1,6 +1,7 @@
 export interface IState {
   currentUser: IUser | null
   navigationView: NAVIGATION_VIEW
+  isLoading: boolean
 }
 
 export interface IUser {
@@ -22,4 +23,5 @@ export enum NAVIGATION_VIEW {
 export const initialState: IState = {
   currentUser: null,
   navigationView: NAVIGATION_VIEW.LOGIN,
+  isLoading: false,
 }
