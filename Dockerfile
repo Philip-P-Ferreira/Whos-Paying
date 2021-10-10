@@ -1,5 +1,6 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.7
+FROM node:alpine
 
 EXPOSE 8080
 
@@ -22,8 +23,16 @@ RUN apt update -y && apt install unzip -y
 ADD /backend/requirements.txt .
 RUN python -m pip install -r requirements.txt
 
+WORKDIR /app/webapp
+COPY webapp/package.json ./
+COPY webapp/package-lock.json ./
+RUN npm i
+
+COPY ./webapp /app/webapp/
+RUN npm build
+
 WORKDIR /app/backend
-ADD . /app
+COPY ./backend /app/backend
 
 # During debugging, this entry point will be overridden. For more information, refer to https://aka.ms/vscode-docker-python-debug
 CMD ["flask", "run"]
