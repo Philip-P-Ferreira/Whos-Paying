@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { TextField, Stack, Label, DefaultButton } from '@fluentui/react'
-import * as styles from './styles'
+import { TextField, Label, DefaultButton } from '@fluentui/react'
 import { useDispatch } from 'react-redux'
 import { setNavigationView, setUser } from '../../redux/actions'
 import { NAVIGATION_VIEW } from '../../redux/state'
@@ -28,20 +27,22 @@ const onSignInClick = () => {
   dispatch(setNavigationView(NAVIGATION_VIEW.HOME))
 }
 
-  return <Stack style={ styles.loginStack }>
-    <Label>Login</Label>
-      <TextField
-        label="username"
-        value={ userName }
-        onChange={ onUsernameChange }/>
-      <TextField
-        label="password"
-        type="password"
-        value={ password }
-        onChange={ onPasswordChange }
-        canRevealPassword={ true }
-        revealPasswordAriaLabel="Show Password"/>
-      <DefaultButton text="Login" onClick={ onSignInClick }/>
-  </Stack>
+  return (
+    <>
+      <Label>Login</Label>
+        <TextField
+          label="username"
+          value={ userName }
+          onChange={ onUsernameChange }/>
+        <TextField
+          label="password"
+          type="password"
+          value={ password }
+          onChange={ onPasswordChange }
+          canRevealPassword={ true }
+          revealPasswordAriaLabel="Show Password"/>
+        <DefaultButton text="Login" onClick={ onSignInClick }/>
+      </>
+  )
 }
 
