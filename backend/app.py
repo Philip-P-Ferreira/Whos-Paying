@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory, session
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
+from flask_cors import CORS
 
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
@@ -11,7 +12,8 @@ from datetime import datetime as dt
 import requests
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="", static_folder="../webapp/build")
+CORS(app)
 
 app.secret_key = b'dwflkeqjflkjewqlkfjeqfjeqw;lf'
 
@@ -216,7 +218,6 @@ def countdown_submit(lobby_code):
     return "", 200
 
 
-@login_required
-@app.route("/<path:path>")
-def static_pages(path):
-    return send_from_directory("../webapp/build", path)
+@app.route("/")
+def index():
+    return send_from_directory("../webapp/build", "index.html")
