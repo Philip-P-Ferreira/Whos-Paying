@@ -4,7 +4,7 @@ FROM python:3.7
 
 # Install Node.js
 RUN apt update --yes && apt install --yes curl
-RUN curl --silent --location https://deb.nodesource.com/setup_4.x | sudo -
+RUN curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
 RUN apt-get install --yes nodejs
 RUN apt-get install --yes build-essential
 
