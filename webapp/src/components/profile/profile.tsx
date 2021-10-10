@@ -1,16 +1,18 @@
 import * as React from 'react'
 import { Header } from '../home/header/header'
 import { Stack, Label, List, Text } from '@fluentui/react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setLoadingState, setNavigationView } from '../../redux/actions'
-import { NAVIGATION_VIEW } from '../../redux/state'
+import { IState, NAVIGATION_VIEW } from '../../redux/state'
 import * as Styles from './styles'
 import { balanceApi } from '../../apis/api'
+import { LoadingSpinner } from '../loadingspinner/loadingspinner'
 
 export const ProfileView = () => {
   
   const [balances, setBalances] = React.useState<number[]>([]) 
   const dispatch = useDispatch()
+  const isLoading = useSelector((state: IState) => state.isLoading )
 
   const getBalance = async () => {
     dispatch(setLoadingState(true))
@@ -31,6 +33,7 @@ export const ProfileView = () => {
     <>
       <Header onLeftButtonClick={ ()=> dispatch(setNavigationView(NAVIGATION_VIEW.HOME))}/>
       <Stack>
+        <LoadingSpinner isLoading={ isLoading }/>
         <Label style={ Styles.accountLabel }>Accounts</Label>
         <List
           items={ balances }

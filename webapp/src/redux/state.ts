@@ -2,6 +2,7 @@ export interface IState {
   currentUser: IUser | null
   navigationView: NAVIGATION_VIEW
   isLoading: boolean
+  lobbyCode: string | null
 }
 
 export interface IUser {
@@ -24,4 +25,5 @@ export const initialState: IState = {
   currentUser: null,
   navigationView: NAVIGATION_VIEW.LOGIN,
   isLoading: false,
+  lobbyCode: null,
 }

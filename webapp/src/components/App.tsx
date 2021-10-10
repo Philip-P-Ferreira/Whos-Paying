@@ -7,6 +7,7 @@ import { HomeView } from './home/home';
 import { ProfileView } from './profile/profile';
 import { JoinGameView } from './joingame/joingame';
 import {ToastsContainer, ToastsStore, ToastsContainerPosition} from 'react-toasts';
+import { PlayerLobby } from './playerlobby/playerlobby';
 
 const App = () =>{
   const navigationView = useSelector( (state: IState) => state.navigationView)
@@ -21,6 +22,8 @@ const App = () =>{
         return <ProfileView/>
       case NAVIGATION_VIEW.JOIN:
         return <JoinGameView/>
+      case NAVIGATION_VIEW.PLAYER_LOBBY:
+        return <PlayerLobby/>
       default:
         return null
     }

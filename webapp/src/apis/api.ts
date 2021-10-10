@@ -1,3 +1,5 @@
+import { ILobbyState } from "./types"
+
 const API_PREFIX = "" 
 
 export async function loginApi(username: string, password: string) {
@@ -42,8 +44,11 @@ export async function joinLobbyApi(lobbyCode: string) {
 
 }
 
-export async function lobbyStateApi(lobbyCode: string): Promise<JSON | null> {
+export async function lobbyStateApi(lobbyCode: string | null): Promise<ILobbyState | null> {
 
+  if (!lobbyCode) {
+    return null
+  }
   try {
     const fullUrl = API_PREFIX + "/api/lobby-state/" + lobbyCode
     const response = await fetch(fullUrl)
@@ -113,7 +118,7 @@ export async function countdownGameApi(lobbyCode: string): Promise<JSON | null> 
 }
 
 export async function balanceApi(): Promise<number | null> {
-  
+
   try {
     const fullUrl = API_PREFIX + "/api/balance"
     const response = await fetch(fullUrl, {

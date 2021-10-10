@@ -5,6 +5,7 @@ export enum ACTION_TYPES {
   CLEAR_CURRENT_USER = "CLEAR_CURRENT_USER",
   SET_NAVIGATION_VIEW = "SET_NAVIGATION_VIEW",
   SET_LOADING_STATE = "SET_LOADING_STATE",
+  SET_LOBBY_CODE = "SET_LOBBY_CODE",
 }
 
 interface ISetUser {
@@ -54,8 +55,21 @@ export function setLoadingState(isLoading: boolean): ISetLoadingState {
   }
 }
 
+export interface ISetLobbyCode {
+  type: ACTION_TYPES.SET_LOBBY_CODE,
+  lobbyCode: string
+}
+
+export function setLobbyCode(lobbyCode: string): ISetLobbyCode {
+  return {
+    type: ACTION_TYPES.SET_LOBBY_CODE,
+    lobbyCode,
+  }
+}
+
 export type IAction = 
 ISetUser | 
 IClearUser |
 ISetNavigationView |
-ISetLoadingState
+ISetLoadingState |
+ISetLobbyCode

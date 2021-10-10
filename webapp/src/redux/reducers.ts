@@ -14,6 +14,9 @@ export const reducer = (state: IState = initialState, action: IAction): IState =
 
     case (ACTION_TYPES.SET_LOADING_STATE):
       return {...state, isLoading: action.isLoading}
+
+    case (ACTION_TYPES.SET_LOBBY_CODE):
+      return {...state, lobbyCode: action.lobbyCode}
     
     default:
       console.log("UNHANDLED ACTION TYPE");
