@@ -23,22 +23,25 @@ login_manager.init_app(app)
 
 API_KEY = 'aadb99b17845dafb819bd56a558d92ef'
 
+
 def transfer(payer_id, payee_id, amount):
     if payer_id == payee_id or amount <= 0:
         return
 
-    url = 'http://api.nessieisreal.com/accounts/{}/transfers?key={}'.format(payer_id, API_KEY)
+    url = 'http://api.nessieisreal.com/accounts/{}/transfers?key={}'.format(
+        payer_id, API_KEY)
     payload = {
-        'medium':'balance',
-        'payee_id':payee_id,
-        'amoumt':amount
+        'medium': 'balance',
+        'payee_id': payee_id,
+        'amoumt': amount
     }
 
     response = requests.post(url, data=payload)
 
 
 def balance(account_id):
-    url = 'http://api.nessieisreal.com/accounts/{}?key={}'.format(account_id, API_KEY)
+    url = 'http://api.nessieisreal.com/accounts/{}?key={}'.format(
+        account_id, API_KEY)
 
     response = requests.get(url)
     return response.json()["balance"]
@@ -87,7 +90,6 @@ def get_user_by_username(username):
 
 def get_user_by_customer_id(customer_id):
     return next((x for x in users if x.customer_id == customer_id), None)
-    
 
 
 @login_manager.user_loader
@@ -112,7 +114,7 @@ def login():
 @login_required
 @app.route("/api/create-lobby", methods=['GET'])
 def create_lobby():
-    bill = request.args.get("bill")
+    bill = int(request.args.get("bill"))
 
     lobby_code = ''.join(random.choices(
         string.ascii_uppercase, k=4))
@@ -136,16 +138,15 @@ def create_lobby():
         "host": current_user.username,
         "bill": bill
     }
-    return jsonify({"lobby-code": lobby_code}), 200
+    return lobby_code, 200
 
 
 @login_required
-@app.route("/api/join-lobby", methods=['GET'])
-def join_lobby():
-    lobby_code = request.args['lobby-code']
+@app.route("/api/join-lobby/<lobby_code>", methods=['GET'])
+def join_lobby(lobby_code):
     if lobbies[lobby_code] and not all(x["ready"] for x in lobbies[lobby_code]["usernames"]):
-        lobbies[lobby_code]["username"].append(
-            {"username": current_user.username})
+        lobbies[lobby_code]["usernames"].append(
+            {"username": current_user.username, "ready": False, "submitted": None, "timestamp": None})
     return "Joining lobby code " + lobby_code, 200
 
 
@@ -182,7 +183,8 @@ def end_lobby():
 @app.route("/api/ready/<lobby_code>", methods=['GET'])
 def ready(lobby_code):
     cu = current_user.username
-    user = next((x for x in lobbies[lobby_code]["usernames"] if x["username"] == cu), None)
+    user = next((x for x in lobbies[lobby_code]
+                ["usernames"] if x["username"] == cu), None)
     user["ready"] = True
     return "Ready", 200
 
@@ -191,6 +193,7 @@ def ready(lobby_code):
 @app.route("/api/countdown-game/<lobby_code>")
 def countdown_game(lobby_code):
     return jsonify(lobbies[lobby_code]["game"]), 200
+
 
 @login_required
 @app.route("/api/balance")
@@ -205,15 +208,17 @@ def countdown_submit(lobby_code):
 
     usernames = lobbies[lobby_code]["usernames"]
 
-    user = next((x for x in usernames if x["username"] == current_user.username), None)
+    user = next(
+        (x for x in usernames if x["username"] == current_user.username), None)
     user["submitted"] = True
     user["timestamp"] = dt.now()
     user["solution"] = solution
     if all(x["submitted"] for x in usernames):
-        usernames.sort(key=lambda x: (abs(x["solution"]-lobbies[lobby_code]["game"]["target"]), x[1]["timestamp"]))
-        get_user_by_username(usernames[-1])
+        usernames.sort(key=lambda x: (
+            abs(int(x["solution"])-lobbies[lobby_code]["game"]["target"]), x["timestamp"]))
 
-        transfer(get_user_by_username(usernames[-1]).account_id, get_user_by_username(lobbies[lobby_code]["host"]).account_id, lobbies[lobby_code]["bill"])
+        transfer(get_user_by_username(usernames[-1]["username"]).account_id, get_user_by_username(
+            lobbies[lobby_code]["host"]).account_id, lobbies[lobby_code]["bill"])
 
     return "", 200
 
