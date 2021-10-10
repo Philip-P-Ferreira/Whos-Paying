@@ -37,4 +37,4 @@ WORKDIR /app/backend
 COPY ./backend /app/backend
 
 # During debugging, this entry point will be overridden. For more information, refer to https://aka.ms/vscode-docker-python-debug
-CMD ["flask", "run"]
+CMD ["flask", "run", "--host=0.0.0.0"]
