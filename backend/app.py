@@ -13,7 +13,7 @@ import requests
 
 
 app = Flask(__name__, static_url_path="", static_folder="../webapp/build")
-CORS(app)
+CORS(app, send_wildcard=False, supports_credentials=True)
 
 app.secret_key = b'dwflkeqjflkjewqlkfjeqfjeqw;lf'
 

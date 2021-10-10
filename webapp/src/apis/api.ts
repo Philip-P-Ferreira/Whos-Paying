@@ -1,4 +1,4 @@
-const API_PREFIX = "http://localhost:5000" 
+const API_PREFIX = "" 
 
 export async function loginApi(username: string, password: string) {
 
@@ -17,12 +17,14 @@ export async function loginApi(username: string, password: string) {
   }
 }
 
-export async function balanceApi(): Promise<string | null> {
+export async function balanceApi(): Promise<number | null> {
   try {
     const fullUrl = API_PREFIX + "/api/balance"
-    const response = await fetch(fullUrl)
+    const response = await fetch(fullUrl, {
+      credentials: "include",
+    })
 
-    return await response.text()
+    return parseInt(await response.text())
   } catch(e) {
     console.error(e)
     return null
