@@ -11,12 +11,11 @@ export const JoinGameView = () => {
   const dispatch = useDispatch()
 
   const onChange = (_event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
-    if (newValue && newValue?.length <= 4) {
-      setCode(newValue.toUpperCase())
-    } else {
+    if (!newValue) {
       setCode("")
+    } else if (newValue.length <= 4) {
+      setCode(newValue.toUpperCase())
     }
-    
   }
 
   return (

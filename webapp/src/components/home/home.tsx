@@ -10,8 +10,6 @@ export const HomeView = (): React.ReactElement => {
 
   const dispatch = useDispatch()
 
-  
-
   const onJoinGameClick = () => { dispatch(setNavigationView(NAVIGATION_VIEW.JOIN))}
 
   return (

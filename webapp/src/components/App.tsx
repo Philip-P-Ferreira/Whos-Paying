@@ -6,6 +6,7 @@ import { Stack } from '@fluentui/react'
 import { HomeView } from './home/home';
 import { ProfileView } from './profile/profile';
 import { JoinGameView } from './joingame/joingame';
+import {ToastsContainer, ToastsStore, ToastsContainerPosition} from 'react-toasts';
 
 const App = () =>{
   const navigationView = useSelector( (state: IState) => state.navigationView)
@@ -29,6 +30,7 @@ const App = () =>{
     <Stack style={ mainStackStyle }>
       <Stack style={ centeredStackStyle }>
         { getView() }
+        <ToastsContainer store={ ToastsStore } position={ ToastsContainerPosition.BOTTOM_CENTER }/>
       </Stack>
     </Stack>
   )
