@@ -1,14 +1,18 @@
 import * as React from 'react'
 import { TextField, Label, DefaultButton } from '@fluentui/react'
-import { useDispatch } from 'react-redux'
-import { setNavigationView, setUser } from '../../redux/actions'
-import { NAVIGATION_VIEW } from '../../redux/state'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoadingState, setNavigationView, setUser } from '../../redux/actions'
+import { IState, NAVIGATION_VIEW } from '../../redux/state'
+import { LoadingSpinner } from '../loadingspinner/loadingspinner'
+import { loginApi } from '../../apis/api'
+import { ToastsStore } from 'react-toasts'
 
 export const LoginView = (): React.ReactElement => {
   
   const [ userName, setUserName ] = React.useState("")
   const [ password, setPassword ] = React.useState("")
   const dispatch = useDispatch();
+  const isLoading = useSelector( (state: IState) => state.isLoading )
 
   const onUsernameChange = (_event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) => {
     setUserName(newValue ?? '')
@@ -18,13 +22,26 @@ export const LoginView = (): React.ReactElement => {
   setPassword(newValue ?? '')
 }
 
-const onSignInClick = () => {
-  dispatch(setUser({
-    name: userName,
-    sessionID: "",
-  }));
+const loginUser = async () => {
+  dispatch(setLoadingState(true))
+  const valid = await loginApi(userName, password)
+  dispatch(setLoadingState(false))
 
-  dispatch(setNavigationView(NAVIGATION_VIEW.HOME))
+  if (valid) {
+    dispatch(setUser({
+      name: userName,
+      sessionID: "",
+    }));
+    dispatch(setNavigationView(NAVIGATION_VIEW.HOME))
+  } else {
+    setUserName("")
+    setPassword("")
+    ToastsStore.error("Invalid Credentials")
+  }
+}
+
+const onSignInClick = () => {
+  loginUser()
 }
 
   return (
@@ -42,6 +59,7 @@ const onSignInClick = () => {
           canRevealPassword={ true }
           revealPasswordAriaLabel="Show Password"/>
         <DefaultButton text="Login" onClick={ onSignInClick }/>
+        <LoadingSpinner isLoading={ isLoading }/>
       </>
   )
 }
